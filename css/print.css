@@ -1,0 +1,132 @@
+@media only screen{
+	 #_page_thankYou{
+		
+		display:block; 
+		
+   }
+	#_page_thankYou_Print{
+		display:none;
+	}
+	.copyright{
+		background-color:#000;
+	}	
+}
+@media only print{
+   .client-logo h1{
+	  border:#000000 solid thick;
+	  height:60px;
+	  vertical-align:middle;
+	  font-size:1.6rem;
+	  -webkit-print-color-adjust: exact; 
+   }
+   #main-menu-wrapper{
+	   display:none;
+   }
+   
+   #home{
+	  display:none;  
+   }
+   #home-print{
+	   page-break-after: always;
+	   width:100%;
+	   height:100%;
+	   display:block;
+	   overflow:hidden;
+   }
+   ._proposalHeaderText, ._proposalHeaderTitle-Print, ._proposalHeaderDate-Print{
+	   -webkit-print-color-adjust: exact; 
+   }
+   
+    ._proposalHeaderDate-Print{ 
+		font-size:1rem;
+	}
+   ._proposalHeaderTitle-Ptint{
+	  font-size:2rem;
+   }
+   
+   
+   nav, #back-to-top{
+	   display:none;
+	   visibility:hidden;
+   }
+   
+   h1{
+	  text-align:center;
+	  font-size:2rem;   
+   }
+   ._pageTitle{
+	  font-size:2rem; 
+   }
+   .parallax{
+	   display:none;
+   }
+   .parallax-print{
+	    margin: 0px auto;
+    	max-width: 800px;
+		display:block;
+		overflow:hidden;
+	}
+	.parallax-print .img-print{
+		position:relative;
+		width:100%;
+		height:400px;
+	}
+	.quote{
+		font-family: 'BebasNeueRegular', sans-serif;
+		font-size: 48px;
+		line-height: 1;
+	}
+   
+   #initialPage{
+	   display:none;
+   }
+   ._page_textArea{
+	   padding: 40px 0px;
+		margin: 20px auto;
+		border-top: #CCC double 4px;
+   }
+   
+   #_header-logo-container-print{
+	   width:100%;
+   }
+   #_header-logo-print{
+	   margin:10%;
+	   width:10%;
+	   float:left;
+   }
+   #_header-cross-print{
+	   margin:5% 10%;
+	   width:30%;
+	   float:left;
+
+   }
+   #_header-simmer-print{
+	   margin:10%;
+	    width:30%;
+	   float:left;
+   }
+   
+   .copyright{
+		background-color:transparent;
+   }
+   #populateContainer{
+	   page-break-after: always;
+   }
+   
+   #_page_thankYou{
+		display:none;
+   }
+   #_page_thankYou_Print{
+	   color:#333;
+	   background-color:#DDD;
+	   display:block;
+   	   -webkit-print-color-adjust: exact;  
+   }
+   
+   #_footer_copyright{
+		text-align:center;
+		padding-top:40px;   
+   }
+   
+   
+}
