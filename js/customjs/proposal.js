@@ -3,6 +3,8 @@
 
 $(document).ready(function () {
 		
+		var myCompany;
+		var proposalDB;
 		var clientDB;
 		var teamDB;
 		
@@ -37,6 +39,45 @@ $(document).ready(function () {
 			return vars;
 		}
 
+
+
+		var companyList = [
+		{companyName:'Simmer Media Group',
+		url:'1GmT2G7EmtjbKh2gpaIOLztxo6nMN37fG09DSnJF_Ku0',
+		mainTitle:'Simmer Media Group',
+		sheetNumber2:'oyiu8ce',
+		logo: 'img/simmer-logo.png', 
+		allrights:'© 2016 All Rights Reserved. Simmer Media Group',
+		favicon:'favicon.png'},
+		{companyName:'PLEY App',
+		url:'1dzanWfkSUTTBt635MvsS3j-b1b9gFVI_OZLcPeLPsi4',
+		mainTitle:'BIG DATA. BETTER DECISIONS.',
+		sheetNumber2:'oyiu8ce',
+		logo: 'img/pley-logo.png',
+		allrights:'© 2016 All Rights Reserved. PLEY',
+		favicon:'http://pleyapp.com/favicon.ico'}];
+
+		function checkMyCompanyID(id){
+			var i=0;
+			while(i<companyList.length){
+				if(companyList[i].companyName === id){
+					return i;
+					i = companyList.length;
+				}else{
+					i++;
+				}
+			}
+			return false;
+		}
+		function changeInformationAccordingToCompany(myCompany){
+			$('#_header-simmer img').attr('src', companyList[myCompany].logo);
+			$('.documentName').html(companyList[myCompany].mainTitle);
+			$('._companyName').html(companyList[myCompany].companyName);
+			$("#favicon").attr("href",companyList[myCompany].favicon);
+			$('#_footer_copyright p').html(companyList[myCompany].allrights);
+		}
+
+
 		function _loadJSON(urlkey, sheetkey){
 			
 			var apiURL = "https://spreadsheets.google.com/feeds/list/" + urlkey + "/" + sheetkey + "/public/values";
@@ -54,18 +95,22 @@ $(document).ready(function () {
 				
 				// Getting client DB and load team DB
 				if(loadCount == 0){
-					clientDB = json;
-					_loadJSON('1dzanWfkSUTTBt635MvsS3j-b1b9gFVI_OZLcPeLPsi4', 'oyiu8ce');
+					proposalDB = json;
+					myCompany = checkMyCompanyID(proposalDB.feed.entry[0].gsx$content.$t);
+					changeInformationAccordingToCompany(myCompany);
+					_loadJSON(companyList[myCompany].url, 'od6');
 				}
 				
 				// Getting team DB and load proposal DB
 				if(loadCount == 1){
-					teamDB = json;
-					_loadJSON($_GET('proposal'), 'od6');
+					
+					clientDB = json;
+					_loadJSON(companyList[myCompany].url, companyList[myCompany].sheetNumber2);
 				}
 				
 				if(loadCount == loadEnds){
-					_fillContents(json);
+					teamDB = json;
+					_fillContents(proposalDB);
 				}
 				loadCount++;
 			},
@@ -76,45 +121,46 @@ $(document).ready(function () {
 		});
 		}
 		
-		_loadJSON('1dzanWfkSUTTBt635MvsS3j-b1b9gFVI_OZLcPeLPsi4', 'od6'); // Start Loading Clients' Data
+		_loadJSON($_GET('proposal'), 'od6'); // Start Loading Clients' Data
 			
 		function _fillContents(json){
 			
-			_checkMyClient(String(json.feed.entry[0].gsx$content.$t));
-			_checkMyProposer(String(json.feed.entry[39].gsx$content.$t));
+			_checkMyClient(String(json.feed.entry[1].gsx$content.$t));
+			console.log
+			_checkMyProposer(String(json.feed.entry[40].gsx$content.$t));
 			
 			_applyClientName(json);
 			
 			
 			/* -- Color -- */
-			if(json.feed.entry[3].gsx$content.$t === ""){
+			if(json.feed.entry[4].gsx$content.$t === ""){
 				if(myClientID != "none"){
 					myKeyColor = "#"+String(clientDB.feed.entry[myClientID].gsx$keycolor.$t);
 				}
 			}else{
-				myKeyColor = "#"+String(json.feed.entry[3].gsx$content.$t);
+				myKeyColor = "#"+String(json.feed.entry[4].gsx$content.$t);
 			}
 			
 			/* -- Title -- */
-			document.title = String(json.feed.entry[0].gsx$content.$t) + ' + Simmer Group';
+			document.title = String(json.feed.entry[1].gsx$content.$t) + ' + Simmer Group';
 			
 			/* -- proposal header -- */
 			if(myClientID != "none"){
 				$("._proposalHeader").find('.client-logo').prepend('<img src="'+String(clientDB.feed.entry[myClientID].gsx$logourl.$t)+'"/>');
 			}else{
-				$("._proposalHeader").find('.client-logo').prepend('<h1 style="Color:White; margin-top:2.4rem;">'+String(json.feed.entry[0].gsx$content.$t)+'</h4>');
+				$("._proposalHeader").find('.client-logo').prepend('<h1 style="Color:White; margin-top:2.4rem;">'+String(json.feed.entry[1].gsx$content.$t)+'</h4>');
 			}
 			
 			
-			$(".home-parallax").css({'background':'url('+String(json.feed.entry[4].gsx$content.$t)+')', 'background-size':'cover', 'background-repeat': 'repeat-y', 'min-height':'160%', 'height':'100%'});
-			$('#header-backgroundimage').attr({'src':String(json.feed.entry[4].gsx$content.$t)});
-			$("._proposalHeaderTitle").find('h3').html(String(json.feed.entry[1].gsx$content.$t));
-			$("._proposalHeaderDate").find('h3').html(String(json.feed.entry[2].gsx$content.$t));
-			$("._proposalHeaderTitle-Print").find('h3').html(String(json.feed.entry[1].gsx$content.$t));
-			$("._proposalHeaderDate-Print").find('h3').html(String(json.feed.entry[2].gsx$content.$t));
+			$(".home-parallax").css({'background':'url('+String(json.feed.entry[5].gsx$content.$t)+')', 'background-size':'cover', 'min-width':'100%', 'min-height':'160%', 'background-repeat':'no-repeat'});
+			$('#header-backgroundimage').attr({'src':String(json.feed.entry[5].gsx$content.$t)});
+			$("._proposalHeaderTitle").find('h3').html(String(json.feed.entry[2].gsx$content.$t));
+			$("._proposalHeaderDate").find('h3').html(String(json.feed.entry[3].gsx$content.$t));
+			$("._proposalHeaderTitle-Print").find('h3').html(String(json.feed.entry[2].gsx$content.$t));
+			$("._proposalHeaderDate-Print").find('h3').html(String(json.feed.entry[3].gsx$content.$t));
 
 			
-			$("#_headerTitle .documentTitle").html(String(json.feed.entry[1].gsx$content.$t));
+			$("#_headerTitle .documentTitle").html(String(json.feed.entry[2].gsx$content.$t));
 			
 			/* -- populate pages --*/
 			/* -- populate pages --*/
@@ -148,7 +194,7 @@ $(document).ready(function () {
 			/* -- Common Pages -- */
 
 			var greyOrNot = "";
-			for(i=5; i<29; i+=3){
+			for(i=6; i<30; i+=3){
 				
 				// -- exclude if exlucde flag is on
 				if(String(json.feed.entry[i].gsx$exclude.$t) === ""){
@@ -185,7 +231,7 @@ $(document).ready(function () {
 					
 					/* -- Unique Contents --*/
 					// add unique charts for advertising charts
-					if(i === 23){
+					if(i === 24){
 						$('#_page_'+parm).append('<div id="advertisingchart"></div>')
 						$('#advertisingchart').load('advertisingchart.html');
 					}
@@ -201,19 +247,19 @@ $(document).ready(function () {
 
 			/* -- Unique Page Pricing And Scheduling -- */
 
-			if(String(json.feed.entry[29].gsx$exclude.$t) === ""){
-				parm = _createURLParameter(String(json.feed.entry[(29)].gsx$title.$t));
-				$('#populateContainer').append("<div id='"+parm+"' class='page fullwidth "+String(greyOrNot)+"'><div id='_page_"+parm+"' class='_page_textArea'><h1 class='_pageTitle'>"+String(json.feed.entry[29].gsx$title.$t)+"</h1><div class='_pageTextContnt'>Our proposed pricing structure is below. <div id='_populate_schedule'></div></div></div></div>");
+			if(String(json.feed.entry[30].gsx$exclude.$t) === ""){
+				parm = _createURLParameter(String(json.feed.entry[(30)].gsx$title.$t));
+				$('#populateContainer').append("<div id='"+parm+"' class='page fullwidth "+String(greyOrNot)+"'><div id='_page_"+parm+"' class='_page_textArea'><h1 class='_pageTitle'>"+String(json.feed.entry[30].gsx$title.$t)+"</h1><div class='_pageTextContnt'>Our proposed pricing structure is below. <div id='_populate_schedule'></div></div></div></div>");
 				for(var j=0; j<7; j++){
-					if(String(json.feed.entry[29+j].gsx$content.$t) != "" && String(json.feed.entry[i+3+j].gsx$exclude.$t) == ""){
-					$('#_populate_schedule').append("<div style='padding-top:24px;'><h4>"+ String(json.feed.entry[29+j].gsx$subtext.$t) + ": </h4>"+String(json.feed.entry[29+j].gsx$content.$t)+"</div>");
+					if(String(json.feed.entry[30+j].gsx$content.$t) != "" && String(json.feed.entry[i+3+j].gsx$exclude.$t) == ""){
+					$('#_populate_schedule').append("<div style='padding-top:24px;'><h4>"+ String(json.feed.entry[30+j].gsx$subtext.$t) + ": </h4>"+String(json.feed.entry[30+j].gsx$content.$t)+"</div>");
 					}
 				}
 
 				// add note
 						
-						if(String(json.feed.entry[36].gsx$content.$t) != "" && String(json.feed.entry[36].gsx$exclude.$t) == ""){
-								$('#_populate_schedule').append("<div style='padding-top:24px;'>"+String(json.feed.entry[36].gsx$content.$t)+"</div>");
+						if(String(json.feed.entry[37].gsx$content.$t) != "" && String(json.feed.entry[37].gsx$exclude.$t) == ""){
+								$('#_populate_schedule').append("<div style='padding-top:24px;'>"+String(json.feed.entry[37].gsx$content.$t)+"</div>");
 						}
 			}
 
@@ -221,15 +267,15 @@ $(document).ready(function () {
 			
 			
 			/* -- Unique Page Thank You -- */
-			$("._page_lastThankYou").find('._pageTitle').html(String(json.feed.entry[37].gsx$content.$t));
-			$("._page_lastThankYou").find('._pageTextContnt').html(String(json.feed.entry[38].gsx$content.$t));
+			$("._page_lastThankYou").find('._pageTitle').html(String(json.feed.entry[38].gsx$content.$t));
+			$("._page_lastThankYou").find('._pageTextContnt').html(String(json.feed.entry[39].gsx$content.$t));
 			if(myProposerID !== 'none'){
 				$("._page_lastThankYou").find('#_proposerEmail').prepend('<a href="mailto:'+String(teamDB.feed.entry[myProposerID].gsx$emailaddress.$t)+'">'+String(teamDB.feed.entry[myProposerID].gsx$emailaddress.$t)+'</a>');
 				$("#emailReceiver").attr({'value':String(teamDB.feed.entry[myProposerID].gsx$emailaddress.$t)});
 				$("._page_lastThankYou").find('#_proposerTitle').html(String(teamDB.feed.entry[myProposerID].gsx$title.$t));
 				$("._page_lastThankYou").find('#_proposerPhone').html(String(teamDB.feed.entry[myProposerID].gsx$phone.$t));
 			}
-			$("._page_lastThankYou").find('#_proposer').html(String(json.feed.entry[39].gsx$content.$t));
+			$("._page_lastThankYou").find('#_proposer').html(String(json.feed.entry[40].gsx$content.$t));
 			
 			/* -- Unique Page Thank You -- */
 
@@ -449,7 +495,8 @@ $(document).ready(function () {
 		
 		function getTargetDimensions(){
 			if($(window).width() < 1200){
-
+				$('._pageTextContnt, ._pageTitle').css({'padding-left':'20px', 'padding-right':'20px'});
+				$('#initialPage').css({'display':'none'});
 				$('#_header-simmer').css({'width':(2*$(window).width()/11)+ 'px'});
 				target_headerLogo1 = { width:  $('#_header-simmer').width(), posx: Math.round(6.5*$(window).width()/11) + 'px', posy: Math.round(3*$(window).height()/5-$('#_header-simmer').height()/2) + 'px' };
 				$('#_header-cross').css({'width':(0.4*$(window).width()/11)+ 'px'});
@@ -457,7 +504,8 @@ $(document).ready(function () {
 				$('#_header-logo').css({'width':(2*$(window).width()/11)+ 'px'});
 				target_headerLogo2 = { width: $('#_header-logo').width(), posx: Math.round(2.5*$(window).width()/11) + 'px', posy: Math.round(3*$(window).height()/5-$('#_header-logo').height()/2) + 'px' };
 			}else{
-				
+				$('._pageTextContnt, ._pageTitle').css({'padding-left':'0px', 'padding-right':'0px'});
+				$('#initialPage').css({'display':'inherit'});
 			$('#_header-simmer').css({'width':(1*$(window).width()/11)+ 'px'});
 			target_headerLogo1 = { width:  $('#_header-simmer').width(), posx: Math.round(6*$(window).width()/11) + 'px', posy: Math.round(3*$(window).height()/5-$('#_header-simmer').height()/2) + 'px' };
 			$('#_header-cross').css({'width':(0.2*$(window).width()/11)+ 'px'});

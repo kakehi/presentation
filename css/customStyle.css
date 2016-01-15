@@ -6,6 +6,7 @@
 --------------------------------------------------------*/
 
 h1, h2, h3, h4, h5, h6 {
+	font-family: Gotham, proxima-nova, sans-serif;
 	font-weight: 300;
 	margin-bottom: 10px;
 }
@@ -387,7 +388,7 @@ nav.light .main-menu li.active a, nav.dark .main-menu li.active a {
 	font-size: 11px;
 }
 .copyright a {
-	color: inherit;
+	color:inherit;
 }
 .copyright-logo a {
 	display: inline-block;
@@ -414,6 +415,7 @@ nav.light .main-menu li.active a, nav.dark .main-menu li.active a {
 #_footer_copyright{
 	font-size:1.0rem;
 	text-align:center;
+	color:#fff;
 }
 
 /*--------------------------------------------------------
