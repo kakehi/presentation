@@ -4,10 +4,10 @@
 /*========== B A C K G R O U N D    S K I N S =============*/
 
 ::-moz-selection {
- background: #FFD600;
+ background: #000;
 }
 ::selection {
-	background: #FFD600;
+	background: #000;
 }
 nav.colored, nav.light.colored,
 .twitter-feed-icon i,
@@ -41,7 +41,7 @@ nav.colored, nav.light.colored,
 .team-member:hover .team-desc,
 .service-box .service-icon,
 .modal .close {
-	background-color: #FFD600;
+	background-color: #000;
 }
 
 
@@ -76,7 +76,7 @@ nav.dark .main-menu a:hover,
 .pages li a:hover,
 .home3 .slabtextdone .slabtext.second-child,
 .service-box:hover .service-icon {
-	color:#FFD600;
+	color:#000;
 }
 
 
@@ -92,7 +92,7 @@ nav.dark .main-menu a:hover,
 blockquote p,
 .pullquote.align-right,
 .pullquote.align-left {
-	border-color:#ffd600;
+	border-color:#000;
 }
 
 

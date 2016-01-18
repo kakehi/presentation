@@ -2,7 +2,7 @@
 
 
 $(document).ready(function () {
-		
+
 		var myCompany;
 		var proposalDB;
 		var clientDB;
@@ -74,6 +74,7 @@ $(document).ready(function () {
 			$('.documentName').html(companyList[myCompany].mainTitle);
 			$('._companyName').html(companyList[myCompany].companyName);
 			$("#favicon").attr("href",companyList[myCompany].favicon);
+
 			$('#_footer_copyright p').html(companyList[myCompany].allrights);
 		}
 
@@ -141,11 +142,14 @@ $(document).ready(function () {
 			}else{
 				myKeyColor = "#"+String(json.feed.entry[4].gsx$content.$t);
 			}
-			alert(myKeyColor);
 			
-			/* -- Title -- */
-			document.title = String(json.feed.entry[1].gsx$content.$t) + ' + Simmer Group';
+			/* -- Title and Meta Tags-- */
 			
+				var tempString = String(json.feed.entry[1].gsx$content.$t) + ' + ' + String(companyList[myCompany].companyName);
+				document.title = String(tempString);
+				$("meta[name='description']").attr('content', String(tempString));
+				$("meta[name='author']").attr('content', companyList[myCompany].companyName);
+
 			/* -- proposal header -- */
 			if(myClientID != "none"){
 				$("._proposalHeader").find('.client-logo').prepend('<img src="'+String(clientDB.feed.entry[myClientID].gsx$logourl.$t)+'"/>');
@@ -156,6 +160,7 @@ $(document).ready(function () {
 			
 			$(".home-parallax").css({'background':'url('+String(json.feed.entry[5].gsx$content.$t)+')', 'background-size':'cover', 'min-width':'100%', 'min-height':'160%', 'background-repeat':'no-repeat'});
 			$('#header-backgroundimage').attr({'src':String(json.feed.entry[5].gsx$content.$t)});
+			$('.header-backgroundimage').attr({'src':String(json.feed.entry[5].gsx$content.$t)});
 			$("._proposalHeaderTitle").find('h3').html(String(json.feed.entry[2].gsx$content.$t));
 			$("._proposalHeaderDate").find('h3').html(String(json.feed.entry[3].gsx$content.$t));
 			$("._proposalHeaderTitle-Print").find('h3').html(String(json.feed.entry[2].gsx$content.$t));
