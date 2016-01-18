@@ -11,7 +11,7 @@ $(document).ready(function () {
 		var myClientID = "none";
 		var myProposerID = "none";
 		
-		var myKeyColor = "#FFD600";
+		var myKeyColor = "#000000";
 		var myBrandColor = "#000000";
 		
 		var loadCount = 0;
@@ -134,12 +134,14 @@ $(document).ready(function () {
 			
 			/* -- Color -- */
 			if(json.feed.entry[4].gsx$content.$t === ""){
-				if(myClientID != "none"){
+				// if client ID exists and if its keycolor exists
+				if(myClientID != "none" && String(clientDB.feed.entry[myClientID].gsx$keycolor.$t) != ""){
 					myKeyColor = "#"+String(clientDB.feed.entry[myClientID].gsx$keycolor.$t);
 				}
 			}else{
 				myKeyColor = "#"+String(json.feed.entry[4].gsx$content.$t);
 			}
+			alert(myKeyColor);
 			
 			/* -- Title -- */
 			document.title = String(json.feed.entry[1].gsx$content.$t) + ' + Simmer Group';
