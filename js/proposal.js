@@ -127,8 +127,9 @@ $(document).ready(function () {
 		function _fillContents(json){
 			
 			_checkMyClient(String(json.feed.entry[1].gsx$content.$t));
-
-			_checkMyProposer(String(json.feed.entry[43].gsx$content.$t));;
+			console.log
+			_checkMyProposer(String(json.feed.entry[40].gsx$content.$t));
+			
 			_applyClientName(json);
 			
 			
@@ -153,7 +154,8 @@ $(document).ready(function () {
 			if(myClientID != "none"){
 				$("._proposalHeader").find('.client-logo').prepend('<img src="'+String(clientDB.feed.entry[myClientID].gsx$logourl.$t)+'"/>');
 			}else{
-				$("._proposalHeader").find('.client-logo').prepend('<h1 style="Color:White; margin-top:2.4rem;">'+String(json.feed.entry[1].gsx$content.$t)+'</h4>');
+				$("._proposalHeader").find('.client-logo').prepend('<img src="https://hosted.metronome3.com/webproposal/ver2.02/img/metronome3.png"/>');
+				//$("._proposalHeader").find('.client-logo').prepend('<h1 style="Color:White; margin-top:2.4rem;">'+String(json.feed.entry[1].gsx$content.$t)+'</h4>');
 			}
 			
 			
@@ -200,7 +202,7 @@ $(document).ready(function () {
 			/* -- Common Pages -- */
 
 			var greyOrNot = "";
-			for(i=6; i<33; i+=3){
+			for(i=6; i<30; i+=3){
 				
 				// -- exclude if exlucde flag is on
 				if(String(json.feed.entry[i].gsx$exclude.$t) === ""){
@@ -252,20 +254,20 @@ $(document).ready(function () {
 			/* -- Common Pages -- */
 
 			/* -- Unique Page Pricing And Scheduling -- */
-			console.log(json.feed.entry[33]);
-			if(String(json.feed.entry[33].gsx$exclude.$t) === ""){
-				parm = _createURLParameter(String(json.feed.entry[(33)].gsx$title.$t));
-				$('#populateContainer').append("<div id='"+parm+"' class='page fullwidth "+String(greyOrNot)+"'><div id='_page_"+parm+"' class='_page_textArea'><h1 class='_pageTitle'>"+String(json.feed.entry[33].gsx$title.$t)+"</h1><div class='_pageTextContnt'>Our proposed pricing structure is below. <div id='_populate_schedule'></div></div></div></div>");
+
+			if(String(json.feed.entry[30].gsx$exclude.$t) === ""){
+				parm = _createURLParameter(String(json.feed.entry[(30)].gsx$title.$t));
+				$('#populateContainer').append("<div id='"+parm+"' class='page fullwidth "+String(greyOrNot)+"'><div id='_page_"+parm+"' class='_page_textArea'><h1 class='_pageTitle'>"+String(json.feed.entry[30].gsx$title.$t)+"</h1><div class='_pageTextContnt'>Our proposed pricing structure is below. <div id='_populate_schedule'></div></div></div></div>");
 				for(var j=0; j<7; j++){
-					if(String(json.feed.entry[33+j].gsx$content.$t) != "" && String(json.feed.entry[i+3+j].gsx$exclude.$t) == ""){
-					$('#_populate_schedule').append("<div style='padding-top:24px;'><h4>"+ String(json.feed.entry[33+j].gsx$subtext.$t) + ": </h4>"+String(json.feed.entry[33+j].gsx$content.$t)+"</div>");
+					if(String(json.feed.entry[30+j].gsx$content.$t) != "" && String(json.feed.entry[i+3+j].gsx$exclude.$t) == ""){
+					$('#_populate_schedule').append("<div style='padding-top:24px;'><h4>"+ String(json.feed.entry[30+j].gsx$subtext.$t) + ": </h4>"+String(json.feed.entry[30+j].gsx$content.$t)+"</div>");
 					}
 				}
 
 				// add note
 						
-						if(String(json.feed.entry[40].gsx$content.$t) != "" && String(json.feed.entry[40].gsx$exclude.$t) == ""){
-								$('#_populate_schedule').append("<div style='padding-top:24px;'>"+String(json.feed.entry[40].gsx$content.$t)+"</div>");
+						if(String(json.feed.entry[37].gsx$content.$t) != "" && String(json.feed.entry[37].gsx$exclude.$t) == ""){
+								$('#_populate_schedule').append("<div style='padding-top:24px;'>"+String(json.feed.entry[37].gsx$content.$t)+"</div>");
 						}
 			}
 
@@ -273,17 +275,15 @@ $(document).ready(function () {
 			
 			
 			/* -- Unique Page Thank You -- */
-			$("._page_lastThankYou").find('._pageTitle').html(String(json.feed.entry[41].gsx$content.$t));
-			$("._page_lastThankYou").find('._pageTextContnt').html(String(json.feed.entry[42].gsx$content.$t));
-
+			$("._page_lastThankYou").find('._pageTitle').html(String(json.feed.entry[38].gsx$content.$t));
+			$("._page_lastThankYou").find('._pageTextContnt').html(String(json.feed.entry[39].gsx$content.$t));
 			if(myProposerID !== 'none'){
 				$("._page_lastThankYou").find('#_proposerEmail').prepend('<a href="mailto:'+String(teamDB.feed.entry[myProposerID].gsx$emailaddress.$t)+'">'+String(teamDB.feed.entry[myProposerID].gsx$emailaddress.$t)+'</a>');
 				$("#emailReceiver").attr({'value':String(teamDB.feed.entry[myProposerID].gsx$emailaddress.$t)});
 				$("._page_lastThankYou").find('#_proposerTitle').html(String(teamDB.feed.entry[myProposerID].gsx$title.$t));
 				$("._page_lastThankYou").find('#_proposerPhone').html(String(teamDB.feed.entry[myProposerID].gsx$phone.$t));
-
 			}
-			$("._page_lastThankYou").find('#_proposer').html(String(json.feed.entry[43].gsx$content.$t));
+			$("._page_lastThankYou").find('#_proposer').html(String(json.feed.entry[40].gsx$content.$t));
 			
 			/* -- Unique Page Thank You -- */
 
